@@ -7,7 +7,7 @@
         - 二维结构熵极小化算法
         - 三维结构熵极小化算法
 """
-from StructuralEntropy.algorithm.priority_tree import compute_structural_entropy_of_node
+from algorithm.priority_tree import compute_structural_entropy_of_node
 
 class HighDimensionalStructureEntropyAlgorithm(object):
 

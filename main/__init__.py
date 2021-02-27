@@ -5,8 +5,8 @@
     结构熵算法测试程序，输入图数据，调用二维结构熵和三维结构熵极小化算法，
     最终得到极小熵结果和编码树（即划分结果）。
 """
-from StructuralEntropy.graph.get_real_network import GetRealNetwork
-from StructuralEntropy.algorithm.high_dimensional_structural_entropy_algorithm import HighDimensionalStructureEntropyAlgorithm
+from graph.get_real_network import GetRealNetwork
+from algorithm.high_dimensional_structural_entropy_algorithm import HighDimensionalStructureEntropyAlgorithm
 
 '''
     程序入口

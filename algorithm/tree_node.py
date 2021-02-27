@@ -11,14 +11,14 @@
         - 割边数（该节点所划分的社区中连到社区外的边数）
         - 结构熵（每个节点都对应一个结构熵）
         - 孩子节点（是一个list，其中每个元素都为一个树节点对象）
-        - 子树的熵？
-        - 子树的最高层级？
-        - CommunityOfLeaves1？
-        - CommunityOfLeaves2？
-        - AllLeaves？
-        - 迭代次数？
-        - MergeDetaHOfChildren？
-        - CombineDetaHOfChildren？
+        - 当前节点的所有子树的熵（是一个list，每个元素是对应子树的熵，也就是该子树所有节点熵之和）
+        - 子树的最高层级（是一个list，每个元素是对应子树的最高层级（或者说高度））
+        - 叶子节点的原始社区（主要用于merge操作时判断原来社区和新的社区）
+        - 需要进行merge的新的社区
+        - 当前节点的所有叶子节点（只有倒数第二层的节点会有这个值，其他层节点该值为空）
+        - 迭代次数（这个节点经过多少次迭代收敛）
+        - MergeDetaHOfChildren（用来判断某两个社区merge后的熵之差，用来确定是否需要merge）
+        - CombineDetaHOfChildren（用来判断某两个社区combine后的熵之差，用来确定是否需要combine）
 """
 
 class TreeNode(object):
