@@ -3,22 +3,22 @@
     date: 2021-2-27
 
     树节点类，包含：
-        - 节点ID
-        - 节点层级（高度）
-        - 父节点
-        - 体积（该节点所划分的社区中所有图结点的度之和）
-        - 父节点体积
-        - 割边数（该节点所划分的社区中连到社区外的边数）
-        - 结构熵（每个节点都对应一个结构熵）
-        - 孩子节点（是一个list，其中每个元素都为一个树节点对象）
-        - 当前节点的所有子树的熵（是一个list，每个元素是对应子树的熵，也就是该子树所有节点熵之和）
-        - 子树的最高层级（是一个list，每个元素是对应子树的最高层级（或者说高度））
-        - 叶子节点的原始社区（主要用于merge操作时判断原来社区和新的社区）
-        - 需要进行merge的新的社区
-        - 当前节点的所有叶子节点（只有倒数第二层的节点会有这个值，其他层节点该值为空）
-        - 迭代次数（这个节点经过多少次迭代收敛）
-        - MergeDetaHOfChildren（用来判断某两个社区merge后的熵之差，用来确定是否需要merge）
-        - CombineDetaHOfChildren（用来判断某两个社区combine后的熵之差，用来确定是否需要combine）
+        - 节点ID - int
+        - 节点层级（高度） - int
+        - 父节点 - TreeNode
+        - 体积（该节点所划分的社区中所有图结点的度之和） - float
+        - 父节点体积 - float
+        - 割边数（该节点所划分的社区中连到社区外的边数） - float
+        - 结构熵（每个节点都对应一个结构熵） - float
+        - 孩子节点（是一个list，其中每个元素都为一个树节点对象） - [TreeNode]
+        - 当前节点的所有子树的熵（是一个list，每个元素是对应子树的熵，也就是该子树所有节点熵之和） - [float]
+        - 子树的最高层级（是一个list，每个元素是对应子树的最高层级（或者说高度）） - [int]
+        - 叶子节点的原始社区（主要用于merge操作时判断原来社区和新的社区） - [string(node_id)]
+        - 需要进行merge的新的社区 - [string(node_id)]
+        - 当前节点的所有叶子节点（只有倒数第二层的节点会有这个值，其他层节点该值为空） - [string(node_id)]
+        - 迭代次数（这个节点经过多少次迭代收敛） - int
+        - MergeDetaHOfChildren（用来判断某两个社区merge后的熵之差，用来确定是否需要merge） - {TwoID: float}
+        - CombineDetaHOfChildren（用来判断某两个社区combine后的熵之差，用来确定是否需要combine） - {TwoID: float}
 """
 
 class TreeNode(object):
@@ -43,6 +43,18 @@ class TreeNode(object):
         self.iterate_number = iterate_number
         self.merge_detaH_of_children = merge_detaH_of_children
         self.combine_detaH_of_children = combine_detaH_of_children
+
+    def __str__(self):
+        return "TreeNode [ID=" + str(self.id) + ", Level=" + str(self.level) \
+                        + ", OwnVolume=" + str(self.own_volumn) \
+                        + ", FatherVolume=" + str(self.father_volumn) + ", Cut=" + str(self.cut) \
+                        + ", StrutureEntropyOfNode=" + str(self.structural_entropy_of_node) \
+                        + ", EntropyOfChildTree=" + str(self.entropy_of_childtree) \
+                        + ",HightestLevelOfChildTree=" + str(self.highest_level_of_childtree) \
+                        + ", CommunityOfLeaves1=" + str(self.community_of_leaves1) \
+                        + ", CommunityOfLeaves2=" + str(self.community_of_leaves2) \
+                        + ", AllLeaves=" + str(self.all_leaves) \
+                        + ", IterateNumber=" + str(self.iterate_number) + "]"
 
     def get_id(self):
         return self.id
@@ -139,18 +151,6 @@ class TreeNode(object):
 
     def set_combine_detaH_of_children(self, combine_detaH_of_children):
         self.combine_detaH_of_children = combine_detaH_of_children
-
-    def to_string(self):
-        return "TreeNode [ID=" + self.id + ", Level=" + self.level \
-                        + ", OwnVolume=" + self.own_volumn \
-                        + ", FatherVolume=" + self.father_volumn + ", Cut=" + self.cut \
-                        + ", StrutureEntropyOfNode=" + self.structural_entropy_of_node \
-                        + ", EntropyOfChildTree=" + self.entropy_of_childtree \
-                        + ",HightestLevelOfChildTree=" + self.highest_level_of_childtree \
-                        + ", CommunityOfLeaves1=" + self.community_of_leaves1 \
-                        + ", CommunityOfLeaves2=" + self.community_of_leaves2 \
-                        + ", AllLeaves=" + self.all_leaves \
-                        + ", IterateNumber=" + self.iterate_number + "]"
 
 
 

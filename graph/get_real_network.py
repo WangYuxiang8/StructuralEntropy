@@ -15,8 +15,8 @@
             从第二行开始，以 src_node_id dst_node_id weight 的格式存储每一条边
             这里输入为有向图，即每一条边代表从源结点到目的结点的单向边；但这里简单起见，我们将其处理为无向图。
 """
-from graph.graph import Graph
-from graph.edge import Edge
+from StructuralEntropy.graph.graph import Graph
+from StructuralEntropy.graph.edge import Edge
 
 
 class GetRealNetwork(object):

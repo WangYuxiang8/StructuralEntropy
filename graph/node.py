@@ -16,6 +16,10 @@ class Node(object):
         self.degree = degree
         self.community_id = community_id
 
+    # Override 返回结点信息（字符串）
+    def __str__(self):
+        return str(self.node_id)
+
     def get_node_id(self):
         return self.node_id
 
@@ -33,7 +37,3 @@ class Node(object):
 
     def set_community_id(self, community_id):
         self.community_id = community_id
-
-    # 返回结点信息（字符串）
-    def to_string(self):
-        return str(self.node_id)

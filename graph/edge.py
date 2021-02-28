@@ -16,6 +16,11 @@ class Edge(object):
         self.dst_id = dst_id
         self.weight = weight
 
+    # Override 返回边信息（字符串）
+    def __str__(self):
+        return "Edge [SrcId=]" + str(self.src_id) + ", DstId=" + str(self.dst_id) \
+               + ", Weight=" + str(self.weight) + "]"
+
     def get_src_id(self):
         return self.src_id
 
@@ -33,8 +38,3 @@ class Edge(object):
 
     def set_weight(self, weight):
         self.weight = weight
-
-    # 返回边信息（字符串）
-    def to_string(self):
-        return "Edge [SrcId=]" + str(self.src_id) + ", DstId=" + str(self.dst_id) \
-               + ", Weight=" + str(self.weight) + "]"

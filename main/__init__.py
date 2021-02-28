@@ -5,8 +5,8 @@
     结构熵算法测试程序，输入图数据，调用二维结构熵和三维结构熵极小化算法，
     最终得到极小熵结果和编码树（即划分结果）。
 """
-from graph.get_real_network import GetRealNetwork
-from algorithm.high_dimensional_structural_entropy_algorithm import HighDimensionalStructureEntropyAlgorithm
+from StructuralEntropy.graph.get_real_network import GetRealNetwork
+from StructuralEntropy.algorithm.high_dimensional_structural_entropy_algorithm import HighDimensionalStructureEntropyAlgorithm
 
 '''
     程序入口
@@ -14,7 +14,8 @@ from algorithm.high_dimensional_structural_entropy_algorithm import HighDimensio
 def main():
     graph = GetRealNetwork('../data/Lymph6Graph').get_graph()
     algorithm = HighDimensionalStructureEntropyAlgorithm(graph)
-    algorithm.print_cut_set()
+    tree = algorithm.two_dimension("../data/LymphTwod.txt")
+    algorithm.print_tree(tree.get_root())
 
 
 if __name__ == '__main__':
