@@ -82,8 +82,8 @@ class PriorityTree(object):
         # 更新child_one，将其作为merge之后的父节点
         child_one.set_own_volumn(child_one.get_own_volumn() + child_two.get_own_volumn())
         child_one.set_cut(child_one.get_cut() + child_two.get_cut() - 2 * cutij)
-        se = compute_structural_entropy_of_node(child_one.get_cut(), self.degree_sum, child_one.get_own_volumn,
-                                                child_one.get_father_volumn)
+        se = compute_structural_entropy_of_node(child_one.get_cut(), self.degree_sum, child_one.get_own_volumn(),
+                                                child_one.get_father_volumn())
         child_one.set_structural_entropy_of_node(se)
         child_one.set_community_of_leaves1(new_com1)
         child_one.set_community_of_leaves2(new_com2)
@@ -115,17 +115,17 @@ class PriorityTree(object):
             highest_level_of_leaf_children = list()
             community_of_leaves1 = list()
             community_of_leaves2 = list()
-            all_leaves = list()
+            all_leaves_of_node = list()
             community_of_leaves1.append(str(vertice_id))
-            all_leaves.append(str(vertice_id))
+            all_leaves_of_node.append(str(vertice_id))
 
             iter_num = 0
             merge_detaH_of_children = dict()    # {TwoID: Float}
             combine_detaH_of_children = dict()  # {TwoID: Float}
 
-            leaf = TreeNode(tree_level, node_id, child_one, own_volumn, father_volumn, cut, structural_entropy_of_node,
+            leaf = TreeNode(node_id, tree_level, child_one, own_volumn, father_volumn, cut, structural_entropy_of_node,
                             children_of_leaf, entropy_of_leaf_children, highest_level_of_leaf_children, community_of_leaves1,
-                            community_of_leaves2, all_leaves, iter_num, merge_detaH_of_children, combine_detaH_of_children)
+                            community_of_leaves2, all_leaves_of_node, iter_num, merge_detaH_of_children, combine_detaH_of_children)
             children.append(leaf)
             entropy_of_childtree.append(structural_entropy_of_node)
             highest_level_of_childtree.append(tree_level)
@@ -172,7 +172,7 @@ class PriorityTree(object):
         # 继续往祖宗节点更新，删除相关的detah值
         curr = child_one.get_father()
         father = curr.get_father()
-        while not father:
+        while father:
             curr_id = curr.get_id()
             merge_detaH_of_childone_father = father.get_merge_detaH_of_children()
             for i in range(len(father.get_children())):

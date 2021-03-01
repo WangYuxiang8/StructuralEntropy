@@ -14,6 +14,7 @@ from StructuralEntropy.algorithm.high_dimensional_structural_entropy_algorithm i
 def main():
     graph = GetRealNetwork('../data/Lymph6Graph').get_graph()
     algorithm = HighDimensionalStructureEntropyAlgorithm(graph)
+    # algorithm.print_cut_set()
     tree = algorithm.two_dimension("../data/LymphTwod.txt")
     algorithm.print_tree(tree.get_root())
 

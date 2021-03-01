@@ -76,5 +76,5 @@ if __name__ == '__main__':
     for i in range(1, 6):
         print("    Node %d's neighbor:" % i)
         for j in graph.get_vertice_connect_edge_list()[i]:
-            print("        - %s" % j.to_string())
+            print("        - %s" % j)
     print("Community number: ", graph.get_community_number())

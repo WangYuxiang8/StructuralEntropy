@@ -16,6 +16,15 @@ class Node(object):
         self.degree = degree
         self.community_id = community_id
 
+    def __hash__(self):
+        return hash(self.node_id)
+
+    def __eq__(self, other):
+        if isinstance(other, self.__class__):
+            if other.__dict__.get("node_id") == self.__dict__.get("node_id"):
+                return True
+        return False
+
     # Override 返回结点信息（字符串）
     def __str__(self):
         return str(self.node_id)

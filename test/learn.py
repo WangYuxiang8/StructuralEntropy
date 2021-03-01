@@ -1,4 +1,4 @@
-
+from StructuralEntropy.algorithm.high_dimensional_structural_entropy_algorithm import HighDimensionalStructureEntropyAlgorithm
 class TestDemo(object):
 
     def __init__(self, my_dict):
@@ -19,5 +19,22 @@ def test_1():
     print("t is: ", str(t.get_dict()))
 
 
+def test_hash():
+    a = "abc"
+    b = "abc"
+    if hash(a) == hash(b):
+        print("a hash: ", hash(a))
+        print("b hash: ", hash(b))
+
+
+def test_two_community_hash():
+    d = dict()
+    t1 = HighDimensionalStructureEntropyAlgorithm.TwoCommunity({"1", "2"}, {"3", "4"})
+    t2 = HighDimensionalStructureEntropyAlgorithm.TwoCommunity({"1", "2"}, {"3", "4"})
+    d.setdefault(t1, 1.2)
+    if d.get(t2):
+        print(d.get(t2))
+
+
 if __name__ == '__main__':
-    test_1()
+    test_two_community_hash()

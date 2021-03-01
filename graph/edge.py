@@ -21,6 +21,17 @@ class Edge(object):
         return "Edge [SrcId=]" + str(self.src_id) + ", DstId=" + str(self.dst_id) \
                + ", Weight=" + str(self.weight) + "]"
 
+    def __hash__(self):
+        return hash((self.src_id, self.dst_id, self.weight))
+
+    def __eq__(self, other):
+        if isinstance(other, self.__class__):
+            if other.__dict__.get("src_id") == self.__dict__.get("src_id") and \
+                    other.__dict__.get("dst_id") == self.__dict__.get("dst_id") and \
+                    other.__dict__.get("weight") == self.__dict__.get("weight"):
+                return True
+        return False
+
     def get_src_id(self):
         return self.src_id
 

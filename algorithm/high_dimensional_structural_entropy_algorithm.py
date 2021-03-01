@@ -123,7 +123,7 @@ class HighDimensionalStructureEntropyAlgorithm(object):
             merge_detaH_of_children = dict()    # {TwoID: Float}
             combine_detaH_of_children = dict()  # {TwoID: Float}
 
-            leaf = TreeNode(tree_level, node_id, root, own_volumn, father_volumn, cut, structural_entropy_of_node,
+            leaf = TreeNode(node_id, tree_level, root, own_volumn, father_volumn, cut, structural_entropy_of_node,
                             children_of_leaf, entropy_of_leaf_children, highest_level_of_leaf_children, community_of_leaves1,
                             community_of_leaves2, all_leaves, iter_num, merge_detaH_of_children, combine_detaH_of_children)
             children.append(leaf)
@@ -150,7 +150,7 @@ class HighDimensionalStructureEntropyAlgorithm(object):
                     if children_of_root[i] and children_of_root[j]:         # ???
                         rooti = children_of_root[i]
                         rootj = children_of_root[j]
-                        cutij = self.get_cut(rooti.get_all_leaves(), rooti.get_all_leaves())
+                        cutij = self.get_cut(rooti.get_all_leaves(), rootj.get_all_leaves())
                         if cutij != 0:
                             two_id = TwoID(rooti.get_id(), rootj.get_id())
                             if merge_detaH_of_root_children.get(two_id):
@@ -172,7 +172,7 @@ class HighDimensionalStructureEntropyAlgorithm(object):
             # 更新merge后的节点（新的社区）与同层的其他节点（社区）之间的割边数
             update_cut_of_newnode_and_othernode = new_node.get_father().get_children()
             for node in update_cut_of_newnode_and_othernode:
-                if not node and node.get_id() != new_node.get_id():
+                if node and node.get_id() != new_node.get_id():
                     cut = self.get_cut(node.get_all_leaves(), new_node.get_community_of_leaves1()) + \
                           self.get_cut(node.get_all_leaves(), new_node.get_community_of_leaves2())
                     if cut != 0.0:
@@ -236,7 +236,7 @@ class HighDimensionalStructureEntropyAlgorithm(object):
                                                                 v_new)
         leaves_of_nodej = nodej.get_all_leaves()
         for i in range(len(leaves_of_nodej)):
-            leaf_id = int(leaves_of_nodei[i])
+            leaf_id = int(leaves_of_nodej[i])
             entropy_after += compute_structural_entropy_of_node((self.vertice_degree_list[leaf_id]),
                                                                 self.degree_sum,
                                                                 self.vertice_degree_list[leaf_id],
@@ -246,19 +246,17 @@ class HighDimensionalStructureEntropyAlgorithm(object):
     # 递归输出
     def output_twod_result(self, node, file):
         if node.get_iterate_number() == 0:
-            print(node.get_all_leaves()[0] + ',')
-            file.write(node.get_all_leaves()[0] + ',')
+            return node.get_all_leaves()[0] + ','
         else:
-            print("{")
-            file.write("{")
+            s = ""
             for n in node.get_children():
-                if not n:
-                    self.output_twod_result(n, file)
+                if n:
+                    s += self.output_twod_result(n, file)
                     if n.get_level() == 1:
-                        print("\n")
-                        file.write("\n")
-            print("}")
-            file.write("}")
+                        print(s)
+                        file.write(s + "\n")
+                        s = ""
+            return s
 
     # 修正树的空节点和节点id
     def adjust_tree(self, tree):
@@ -269,10 +267,13 @@ class HighDimensionalStructureEntropyAlgorithm(object):
     def delete_none(self, root):
         if root.get_iterate_number() != 0:
             children = root.get_children()
+            # 从一个list当中删除指定元素（这里是None）
+            j = 0
             for i in range(len(children)):
-                if not children[i]:
-                    children.pop(i)
-                    i -= 1
+                if not children[j]:
+                    children.pop(j)
+                else:
+                    j += 1
             for i in children:
                 self.delete_none(i)
 
@@ -296,6 +297,28 @@ class HighDimensionalStructureEntropyAlgorithm(object):
         def __str__(self):
             return "TwoCommunity [comi=" + str(self.comi) + ", comj=" + str(self.comj) + "]"
 
+        # 重写hash值，判断两个对象是否相等
+        def __hash__(self):
+            t = tuple()
+            for i in self.comi:
+                t += (i,)
+            for j in self.comj:
+                t += (j,)
+            return hash(t)
+
+        def __eq__(self, other):
+            if isinstance(other, self.__class__):
+                other_comi = other.__dict__.get("comi")
+                other_comj = other.__dict__.get("comj")
+                my_comi = self.__dict__.get("comi")
+                my_comj = self.__dict__.get("comj")
+                if len(other_comi) != len(my_comi) or len(other_comj) != len(my_comj):
+                    return False
+                else:
+                    return other_comi == my_comi and other_comj == my_comj
+            else:
+                return False
+
     # 测试程序
     def print_cut_set(self):
         print("----------Test cut set-----------")
@@ -305,9 +328,8 @@ class HighDimensionalStructureEntropyAlgorithm(object):
 
     # 打印出整个编码树
     def print_tree(self, root):
-        if root.get_iterate_number() != 0:
-            print(root)
-            print('  - ', root.get_merge_detaH_of_children())
-            print('  - ', root.get_combine_detaH_of_children())
-            for i in root.get_children():
-                self.print_tree(i)
+        print(root)
+        print('  - ', root.get_merge_detaH_of_children())
+        print('  - ', root.get_combine_detaH_of_children())
+        for i in root.get_children():
+            self.print_tree(i)
