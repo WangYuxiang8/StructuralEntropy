@@ -74,8 +74,8 @@ class HighDimensionalStructureEntropyAlgorithm(object):
         二维结构熵极小化算法
     '''
     def two_dimension(self, output_filename):
-        level = 0
         id = 0
+        level = 0
         vi = self.degree_sum                    # 本节点体积
         vifa = 0                                # 父节点体积
         gi = 0.0                                # 割边数
@@ -91,7 +91,7 @@ class HighDimensionalStructureEntropyAlgorithm(object):
                 - 其中根节点的父节点为None
                 - 根节点的子节点也都不是叶子节点，因为这是2维结构熵，所以叶子节点在第二层，所以三个保存叶子节点的参数也为None
         '''
-        root = TreeNode(level, id, None, vi, vifa, gi, se, children, entropy_of_childtree, highest_level_of_childtree,
+        root = TreeNode(id, level, None, vi, vifa, gi, se, children, entropy_of_childtree, highest_level_of_childtree,
                         None, None, None, iter_num, merge_detaH_of_children, combine_detaH_of_children)
         big_tree = PriorityTree(root, self.vertice_degree_list, self.degree_sum)
 
@@ -299,27 +299,53 @@ class HighDimensionalStructureEntropyAlgorithm(object):
 
         # 重写hash值，判断两个对象是否相等
         def __hash__(self):
-            t = tuple()
+            a1 = 0
+            a2 = 0
+            min1 = 10000000
+            min2 = 10000000
             for i in self.comi:
-                t += (i,)
-            for j in self.comj:
-                t += (j,)
-            return hash(t)
+                a1 += int(i)
+                if min1 < int(i):
+                    min1 = int(i)
+            for i in self.comj:
+                a2 += int(i)
+                if min2 < int(i):
+                    min2 = int(i)
+            return a1 * min1 + a2 * min2
 
         def __eq__(self, other):
-            if isinstance(other, self.__class__):
-                other_comi = other.__dict__.get("comi")
-                other_comj = other.__dict__.get("comj")
-                my_comi = self.__dict__.get("comi")
-                my_comj = self.__dict__.get("comj")
-                if len(other_comi) != len(my_comi) or len(other_comj) != len(my_comj):
-                    return False
-                else:
-                    return other_comi == my_comi and other_comj == my_comj
-            else:
+            if self is other:
+                return True
+            if other is None:
+                return False
+            if not isinstance(other, self.__class__):
                 return False
 
-    # 测试程序
+            other_comi = other.__dict__.get("comi")
+            other_comj = other.__dict__.get("comj")
+            my_comi = self.__dict__.get("comi")
+            my_comj = self.__dict__.get("comj")
+
+            if my_comi is None:
+                if other_comi is not None:
+                    return False
+            if my_comj is None:
+                if other_comj is not None:
+                    return False
+            a1 = len(my_comi)
+            b1 = len(my_comj)
+            a2 = len(other_comi)
+            b2 = len(other_comj)
+
+            if my_comi == other_comi and my_comj == other_comj and a1 == a2 and b1 == b2 or \
+                my_comj == other_comi and my_comi == other_comj and a1 == b2 and b1 == a2:
+                return True
+            return False
+
+    '''
+        测试程序
+    '''
+    # 打印出cut_set，存放了对应community的割边数
     def print_cut_set(self):
         print("----------Test cut set-----------")
         print("Size of cut set: %d" % len(self.cut_set))

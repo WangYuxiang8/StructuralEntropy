@@ -135,6 +135,9 @@ class PriorityTree(object):
         child_one.set_highest_level_of_childtree(highest_level_of_childtree)
         child_one.set_merge_detaH_of_children(merge_detaH_of_children)
         child_one.set_combine_detaH_of_children(combine_detaH_of_children)
+        children = None
+        entropy_of_childtree = None
+        highest_level_of_childtree = None
 
         '''
             更新祖先节点的子树结构熵数组和子树最高层级数组

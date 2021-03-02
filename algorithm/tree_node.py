@@ -21,6 +21,7 @@
         - CombineDetaHOfChildren（用来判断某两个社区combine后的熵之差，用来确定是否需要combine） - {TwoID: float}
 """
 
+
 class TreeNode(object):
 
     def __init__(self, id, level, father, own_volumn, father_volumn, cut, structural_entropy_of_node,

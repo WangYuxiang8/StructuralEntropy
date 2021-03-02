@@ -16,12 +16,12 @@ class TwoID(object):
         return "TwoID [ID1=" + str(self.id1) + ", ID2=" + str(self.id2) + "]"
 
     def __hash__(self):
-        return hash((self.id1, self.id2))
+        return self.id1 * self.id2 + self.id1 + self.id2
 
     def __eq__(self, other):
         if isinstance(other, self.__class__):
-            if other.__dict__.get("id1") == self.__dict__.get("id1") and \
-                    other.__dict__.get("id2") == self.__dict__.get("id2"):
+            if (other.__dict__.get("id1") == self.__dict__.get("id1") and other.__dict__.get("id2") == self.__dict__.get("id2")) or \
+                    (other.__dict__.get("id2") == self.__dict__.get("id1") and other.__dict__.get("id1") == self.__dict__.get("id2")):
                 return True
         return False
 

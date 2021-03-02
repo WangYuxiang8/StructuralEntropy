@@ -18,6 +18,22 @@ def test_1():
     d.pop(1)
     print("t is: ", str(t.get_dict()))
 
+def test_two_community():
+    d = dict()
+    a1 = set()
+    a1.add('1')
+    b1 = set()
+    b1.add('2')
+    t1 = HighDimensionalStructureEntropyAlgorithm.TwoCommunity(a1, b1)
+    d.setdefault(t1, 1.2)
+
+    a2 = set()
+    a2.add('1')
+    b2 = set()
+    b2.add('2')
+    t2 = HighDimensionalStructureEntropyAlgorithm.TwoCommunity(a2, b2)
+    print(d.get(t2))
+
 
 def test_hash():
     a = "abc"
