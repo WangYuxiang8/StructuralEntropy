@@ -7,7 +7,7 @@
 """
 from StructuralEntropy.graph.get_real_network import GetRealNetwork
 from StructuralEntropy.algorithm.high_dimensional_structural_entropy_algorithm import HighDimensionalStructureEntropyAlgorithm
-
+from StructuralEntropy.plot.plot_result_partition import plot_graph
 '''
     程序入口
 '''
@@ -17,7 +17,7 @@ def main():
     # algorithm.print_cut_set()
     tree = algorithm.two_dimension("../data/LymphTwod.txt")
     algorithm.print_tree(tree.get_root())
-
+    plot_graph(graph, '../data/LymphTwod.txt')
 
 if __name__ == '__main__':
     main()
