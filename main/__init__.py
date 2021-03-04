@@ -17,7 +17,7 @@ def main():
     # algorithm.print_cut_set()
     tree = algorithm.two_dimension("../data/LymphTwod.txt")
     algorithm.print_tree(tree.get_root())
-    plot_graph(graph, '../data/LymphTwod.txt')
+    # plot_graph(graph, '../data/LymphTwod.txt')
 
 if __name__ == '__main__':
     main()

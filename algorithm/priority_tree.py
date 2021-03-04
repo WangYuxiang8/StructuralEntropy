@@ -21,6 +21,8 @@ from StructuralEntropy.algorithm.two_id import TwoID
     结构熵计算公式：
         H^T(G) = - sigma( (gi/2m) * log2(Vi/Vifa) )
 '''
+
+
 def compute_structural_entropy_of_node(gi, degree_sum, vi, vifa):
     w1 = gi / degree_sum
     w2 = vi / vifa
@@ -42,6 +44,7 @@ class PriorityTree(object):
             - cutij，表示两个社区之间的割边数
             - iter_num当前迭代次数
     '''
+
     def merge(self, child_one, child_two, cutij, iter_num):
         id1 = child_one.get_id()
         id2 = child_two.get_id()
@@ -97,7 +100,7 @@ class PriorityTree(object):
         children = list()
         entropy_of_childtree = list()
         highest_level_of_childtree = list()
-        merge_detaH_of_children = dict()            # {TwoID: float}
+        merge_detaH_of_children = dict()  # {TwoID: float}
         combine_detaH_of_children = dict()
         for i in range(len(all_leaves)):
             vertice_id = int(all_leaves[i])
@@ -120,12 +123,14 @@ class PriorityTree(object):
             all_leaves_of_node.append(str(vertice_id))
 
             iter_num = 0
-            merge_detaH_of_children = dict()    # {TwoID: Float}
+            merge_detaH_of_children = dict()  # {TwoID: Float}
             combine_detaH_of_children = dict()  # {TwoID: Float}
 
             leaf = TreeNode(node_id, tree_level, child_one, own_volumn, father_volumn, cut, structural_entropy_of_node,
-                            children_of_leaf, entropy_of_leaf_children, highest_level_of_leaf_children, community_of_leaves1,
-                            community_of_leaves2, all_leaves_of_node, iter_num, merge_detaH_of_children, combine_detaH_of_children)
+                            children_of_leaf, entropy_of_leaf_children, highest_level_of_leaf_children,
+                            community_of_leaves1,
+                            community_of_leaves2, all_leaves_of_node, iter_num, merge_detaH_of_children,
+                            combine_detaH_of_children)
             children.append(leaf)
             entropy_of_childtree.append(structural_entropy_of_node)
             highest_level_of_childtree.append(tree_level)
@@ -152,7 +157,7 @@ class PriorityTree(object):
                 curr_tree_entropy += curr.get_entropy_of_childtree()[i]
                 if curr.get_highest_level_of_childtree()[i] > curr_tree_highest_level:
                     curr_tree_highest_level = curr.get_highest_level_of_childtree()[i]
-            curr_tree_entropy += curr.get_structural_entropy_of_node()      # 还要加上当前根节点的结构熵
+            curr_tree_entropy += curr.get_structural_entropy_of_node()  # 还要加上当前根节点的结构熵
             father.get_entropy_of_childtree()[curr_id] = curr_tree_entropy
             father.get_highest_level_of_childtree()[curr_id] = curr_tree_highest_level
 
@@ -164,7 +169,7 @@ class PriorityTree(object):
 
         # 把childone的父亲节点的detaHofChildren中所有和id1和id2相关的都删掉
         merge_detaH_of_childone_father = child_one.get_father().get_merge_detaH_of_children()
-        merge_detaH_of_childone_father.pop(TwoID(id1, id2))         # 删除child_one和child_two这两个社区的TwoID删除
+        merge_detaH_of_childone_father.pop(TwoID(id1, id2))  # 删除child_one和child_two这两个社区的TwoID删除
         # 删除与child_one或child_two有联合的TwoID都删了
         for i in range(len(child_one.get_father().get_children())):
             if merge_detaH_of_childone_father.get(TwoID(i, id1)):
@@ -190,8 +195,34 @@ class PriorityTree(object):
         联合算子
     '''
 
-    def combine(self):
-        pass
+    def combine(self, child_one, child_two, cutij, iter_num):
+        id1 = child_one.get_id()
+        id2 = child_two.get_id()
+
+        '''
+            因为是要merge同层的两个节点，因此需要新建一个节点作为这两个节点的父节点，下面都是对父节点各个属性的计算
+        '''
+        father = child_one.get_father()
+        level = child_one.get_level()
+        id = child_one.get_id()
+        vi = child_one.get_own_volumn() + child_two.get_own_volumn()
+        v_fa = child_one.get_father_volumn()
+        gi = child_one.get_cut() + child_two.get_cut() - 2 * cutij
+        se = compute_structural_entropy_of_node(gi, self.degree_sum, vi, v_fa)
+        children = list([child_one, child_two])
+
+        # ...
+        # new community and all_leaves
+        # ...
+
+        # 计算merge之后的child_one及其子树的熵之和，child_two同样，并将结果存入新建父节点的entropy_of_childtree属性
+        child_tree_one = 0.0
+        child_tree_two = 0.0
+        for e in child_one.entropy_of_childtree():
+            child_tree_one += e
+        for e in child_two.entropy_of_childtree():
+            child_tree_two += e
+        entropy_of_childree = list([child_tree_one, child_tree_two])
 
     def get_root(self):
         return self.root
