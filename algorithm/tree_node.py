@@ -51,7 +51,7 @@ class TreeNode(object):
                         + ", FatherVolume=" + str(self.father_volumn) + ", Cut=" + str(self.cut) \
                         + ", StrutureEntropyOfNode=" + str(self.structural_entropy_of_node) \
                         + ", EntropyOfChildTree=" + str(self.entropy_of_childtree) \
-                        + ",HightestLevelOfChildTree=" + str(self.highest_level_of_childtree) \
+                        + ", HightestLevelOfChildTree=" + str(self.highest_level_of_childtree) \
                         + ", CommunityOfLeaves1=" + str(self.community_of_leaves1) \
                         + ", CommunityOfLeaves2=" + str(self.community_of_leaves2) \
                         + ", AllLeaves=" + str(self.all_leaves) \
@@ -152,25 +152,3 @@ class TreeNode(object):
 
     def set_combine_detaH_of_children(self, combine_detaH_of_children):
         self.combine_detaH_of_children = combine_detaH_of_children
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
