@@ -15,8 +15,9 @@ def main():
     graph = GetRealNetwork('../data/Lymph6Graph').get_graph()
     algorithm = HighDimensionalStructureEntropyAlgorithm(graph)
     # algorithm.print_cut_set()
-    tree = algorithm.two_dimension("../data/LymphTwod.txt")
-    algorithm.print_tree(tree.get_root())
+    # tree_2 = algorithm.two_dimension("../data/LymphTwod.txt")
+    tree_3 = algorithm.three_dimension("../data/LymphThreed.txt")
+    # algorithm.print_tree(tree_3.get_root())
     # plot_graph(graph, '../data/LymphTwod.txt')
 
 if __name__ == '__main__':

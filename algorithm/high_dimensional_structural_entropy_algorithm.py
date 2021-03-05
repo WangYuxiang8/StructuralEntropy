@@ -189,7 +189,11 @@ class HighDimensionalStructureEntropyAlgorithm(object):
         self.adjust_tree(big_tree)
         return big_tree
 
-    def three_dimension(self):
+    '''
+        三维结构熵极小化算法
+    '''
+
+    def three_dimension(self, output_filename):
         id = 0
         level = 0
         vi = self.degree_sum  # 本节点体积
@@ -403,6 +407,13 @@ class HighDimensionalStructureEntropyAlgorithm(object):
                     if cut != 0.0:
                         self.set_cut(node.get_all_leaves(), new_node.get_all_leaves(), cut)
 
+        # 输出划分结果，并对树做一个修正
+        f = open(output_filename, 'w')
+        self.output_threed_result(big_tree.get_root(), f)
+        f.close()
+        self.adjust_tree(big_tree)
+        return big_tree
+
     '''
         获取两个community的割边数，从self.cut_set中获得
         comi: [string, string, ...]
@@ -482,11 +493,12 @@ class HighDimensionalStructureEntropyAlgorithm(object):
                                                             v_fa)
         return entropy_before - entropy_after
 
-
-    # 递归输出
+    '''
+        打印二维编码树
+    '''
     def output_twod_result(self, node, file):
         if node.get_iterate_number() == 0:
-            return node.get_all_leaves()[0] + ','
+            return node.get_all_leaves()[0] + ' '
         else:
             s = ""
             for n in node.get_children():
@@ -495,6 +507,27 @@ class HighDimensionalStructureEntropyAlgorithm(object):
                     if n.get_level() == 1:
                         print(s)
                         file.write(s + "\n")
+                        s = ""
+            return s
+
+    '''
+        打印三维编码树
+    '''
+    def output_threed_result(self, node, file):
+        if node.get_iterate_number() == 0:
+            return node.get_all_leaves()[0] + ' '
+        else:
+            s = ""
+            for n in node.get_children():
+                if n:
+                    s += self.output_threed_result(n, file)
+                    if n.get_level() == 2:
+                        print(s)
+                        file.write(s + "\n")
+                        s = ""
+                    if n.get_level() == 1:
+                        print()
+                        file.write("\n")
                         s = ""
             return s
 
